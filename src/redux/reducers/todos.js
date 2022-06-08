@@ -1,8 +1,10 @@
-import { ADD_TODO, TOGGLE_TODO } from "../actionTypes";
+import { ADD_TODO, GET_TODOS, SET_TODOS, TOGGLE_TODO } from "../actionTypes";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
   allIds: [],
-  byIds: {}
+  byIds: {},
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -33,6 +35,29 @@ export default function(state = initialState, action) {
           }
         }
       };
+    }
+    case GET_TODOS: {
+        return {
+            ...state,
+            loading: true
+          };
+    }
+    case SET_TODOS: {
+        const { todos } = action.payload;
+        let newTodos = {}
+        todos.forEach(todo => newTodos = {...newTodos, [uuidv4()]: {
+            content: todo,
+            completed: false
+        }})
+        return {
+            ...state,
+            loading: false,
+            allIds: [...state.allIds, ...Object.keys(newTodos)],
+            byIds: {
+              ...state.byIds,
+              ...newTodos
+            }
+          };
     }
     default:
       return state;
