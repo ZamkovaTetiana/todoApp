@@ -1,6 +1,11 @@
 import React, {useRef} from "react";
 import { connect } from "react-redux";
-import { addTodo, getTodos } from "../redux/actions/actions";
+
+// Saga getTodos Action
+import { addTodo, getTodos } from "../redux/actions";
+
+// Thunk getTodos Action
+// import { getTodos } from "../redux/actions/thunkActions";
 
 const AddTodo = ({addTodo, getTodos}) => {
   const inputRef = useRef(null);
@@ -12,14 +17,12 @@ const AddTodo = ({addTodo, getTodos}) => {
 
   return (
     <div>
-      <input
-        ref={inputRef}
-      />
+      <input ref={inputRef} />
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
       <button className="add-todo" onClick={getTodos}>
-        Get Todos
+        Get Todo
       </button>
     </div>
   );
